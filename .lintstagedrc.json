@@ -1,0 +1,4 @@
+{
+  "*.ts": ["prettier --write", "eslint"],
+  "*.tsx": ["eslint", "prettier --write"]
+}
