@@ -9,21 +9,20 @@
     "start": "react-native start",
     "test": "jest",
     "prettier": "npx prettier --check ./src",
-    "prettier:write": "npx prettier --write ./src",
-    "lint-staged": {
-      "src/**/*.{ts,tsx}": [
-        "eslint --ext .tsx --ext .ts src/ --fix"
-      ],
-      "./src/**": [
-        "prettier --write ."
-      ]
-    },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
-    },
-    "prepare": "husky install"
+    "prettier:write": "npx prettier --write ./src"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "eslint --ext .tsx --ext .ts src/ --fix"
+    ],
+    "./src/**": [
+      "prettier --write ."
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "dependencies": {
     "react": "18.2.0",
