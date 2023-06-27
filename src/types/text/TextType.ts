@@ -9,4 +9,4 @@ export type TextType =
   | 'small'
   | 'tiny';
 
-export type TextTypeMap<T> = { [K in TextType]: T };
+export type TextTypeMap<T> = {[K in TextType]: T};

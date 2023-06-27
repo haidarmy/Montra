@@ -34,6 +34,6 @@ export type ThemeColor =
   | 'blue_4'
   | 'blue_5';
 
-export type ThemeColorMap = { [K in ThemeColor]: string };
+export type ThemeColorMap = {[K in ThemeColor]: string};
 
 export type Theme = ThemeColorMap;

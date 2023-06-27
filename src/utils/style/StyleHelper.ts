@@ -1,5 +1,5 @@
-import { FONT_FAMILY } from '@constants/fonts';
-import { TextTypeMap } from '@types';
+import {FONT_FAMILY} from '@constants/fonts';
+import {TextTypeMap} from '@types';
 
 export const fontFamily: TextTypeMap<string> = {
   title_x: FONT_FAMILY.bold,

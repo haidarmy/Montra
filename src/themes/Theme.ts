@@ -1,4 +1,4 @@
-import { Theme as ThemeType } from './ThemeType';
+import {Theme as ThemeType} from './ThemeType';
 
 export const theme: ThemeType = {
   black_1: '#0D0E0F',
