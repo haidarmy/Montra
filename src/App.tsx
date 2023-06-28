@@ -1,15 +1,15 @@
 import {Text} from '@components';
-import Icon from '@components/icon/Icon';
-import Illustration from '@components/illustration/Illustration';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <View>
       <Text type="title_x">Hello World!</Text>
-      <Icon type="camera" />
-      <Illustration type="data" />
     </View>
   );
 };
