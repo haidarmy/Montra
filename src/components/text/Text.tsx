@@ -2,7 +2,7 @@ import {StyleSheet, Text as TextRN, TextProps as TextRNProps} from 'react-native
 import React, {ReactNode} from 'react';
 import {TextType} from '@types';
 import {fontFamily, fontSize, lineHeight} from '@utils';
-import {ThemeColor} from '@themes';
+import {ThemeColor, theme} from '@themes';
 
 export interface TextProps extends TextRNProps {
   type: TextType;
@@ -10,7 +10,7 @@ export interface TextProps extends TextRNProps {
   children?: ReactNode;
 }
 
-const Text = ({type, color, children, style, ...props}: TextProps) => {
+const Text = ({type, color = 'black_1', children, style, ...props}: TextProps) => {
   return (
     <TextRN
       {...props}
@@ -19,7 +19,7 @@ const Text = ({type, color, children, style, ...props}: TextProps) => {
           fontFamily: fontFamily[type],
           fontSize: fontSize[type],
           lineHeight: lineHeight[type],
-          color,
+          color: theme[color],
         },
         style,
       ])}>

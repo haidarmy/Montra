@@ -8,6 +8,7 @@ export type ThemeColor =
   | 'white_3'
   | 'white_4'
   | 'white_5'
+  | 'white_6'
   | 'violet_1'
   | 'violet_2'
   | 'violet_3'

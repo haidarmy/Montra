@@ -6282,6 +6282,11 @@ react-native-flipper@^0.164.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.164.0.tgz#64f6269a86a13a72e30f53ba9f5281d2073a7697"
   integrity sha512-iJhIe3rqx6okuzBp4AJsTa2b8VRAOGzoLRFx/4HGbaGvu8AurZjz8TTQkhJsRma8dsHN2b6KKZPvGGW3wdWzvA==
 
+react-native-onboarding-animate@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-onboarding-animate/-/react-native-onboarding-animate-1.2.4.tgz#4874231abc585aeb1d4a0433e488ad9301338f63"
+  integrity sha512-Qqdw5rVi8UBnDoUIB+TVKxZXdUuFA+Tt2KF/jgjD/k7qNZezlCFeYYu4dBtVDscVEDPip3gXo7iRs9QkpOUS9Q==
+
 react-native-splash-screen@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-native-splash-screen/-/react-native-splash-screen-3.3.0.tgz#3af71ed17afe50fee69590a45aec399d071ead02"

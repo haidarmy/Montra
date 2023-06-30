@@ -10,6 +10,7 @@ export const theme: ThemeType = {
   white_3: '#F7F9FA',
   white_4: '#F2F4F5',
   white_5: '#E3E5E5',
+  white_6: '#91919F',
   violet_1: '#7F3DFF',
   violet_2: '#8F57FF',
   violet_3: '#B18AFF',
