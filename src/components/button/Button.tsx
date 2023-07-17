@@ -7,7 +7,7 @@ interface ButtonProps extends TouchableOpacityProps {
   type: 'solid' | 'outline';
   color: ThemeColor;
   tittleColor?: ThemeColor;
-  tittle?: string;
+  tittle: string;
 }
 
 const Button = ({type, color, tittle, tittleColor = 'black_1'}: ButtonProps) => {

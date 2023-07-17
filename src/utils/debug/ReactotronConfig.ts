@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Reactotron, {overlay} from 'reactotron-react-native';
+import Reactotron, {overlay, trackGlobalErrors} from 'reactotron-react-native';
 
 Reactotron.clear!();
 
@@ -8,4 +10,5 @@ Reactotron
   .configure({name: 'Montra'}) // controls connection & communication settings
   .useReactNative() // add all built-in react native plugins
   .use(overlay())
+  .use(trackGlobalErrors({}))
   .connect(); // let's connect!

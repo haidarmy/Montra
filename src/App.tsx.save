@@ -1,5 +1,4 @@
-import {Text} from '@components';
-import {LoginScreen, OnboardingScreen, SignUpScreen} from '@pages';
+xximport {SignUpScreen} from '@pages';
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -9,9 +8,8 @@ const App = () => {
     SplashScreen.hide();
   }, []);
   return (
-    <>
-      <SignUpScreen />
-    </>
-  );
-};
-export default App;
+    <View>
+      {/* <Text type="title_x">Hello World!</Textx
+
+
+
