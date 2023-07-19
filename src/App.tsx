@@ -1,17 +1,11 @@
-import {Text} from '@components';
-import {LoginScreen, OnboardingScreen, SignUpScreen} from '@pages';
+import NavigationStack from '@navigations/NavigationStack';
 import React, {useEffect} from 'react';
-import {View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   }, []);
-  return (
-    <>
-      <SignUpScreen />
-    </>
-  );
+  return <NavigationStack />;
 };
 export default App;

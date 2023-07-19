@@ -6,7 +6,7 @@ import OnboardingBox from './OnboardingBox';
 
 const Onboarding = () => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: theme.white_1}}>
       <View style={{flexGrow: 1}}>
         <OnboardingBox />
       </View>
