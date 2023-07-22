@@ -18,7 +18,7 @@ const Text = ({type, color = 'black_1', children, style, ...props}: TextProps) =
         {
           fontFamily: fontFamily[type],
           fontSize: fontSize[type],
-          lineHeight: lineHeight[type],
+          lineHeight: !style ? lineHeight[type] : undefined,
           color: theme[color],
         },
         style,

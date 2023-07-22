@@ -10,12 +10,13 @@ interface ButtonProps extends TouchableOpacityProps {
   tittle: string;
 }
 
-const Button = ({type, color, tittle, tittleColor = 'black_1'}: ButtonProps) => {
+const Button = ({type, color, tittle, tittleColor = 'black_1', style}: ButtonProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       style={StyleSheet.flatten([
         styles.button,
+        style,
         type === 'solid' && {backgroundColor: theme[color]},
         type === 'outline' && {borderColor: theme[color]},
       ])}>
@@ -36,6 +37,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 17,
     borderRadius: 16,
-    marginBottom: 16,
   },
 });

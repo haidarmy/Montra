@@ -4,6 +4,12 @@ import Ic_arrow_left from './arrow-left.svg';
 import Ic_arrow_left_2 from './arrow-left-2.svg';
 import Ic_arrow_right_2 from './arrow-right-2.svg';
 import Ic_attachment from './attachment.svg';
+import Ic_bank_america from './bank-america.svg';
+import Ic_bank_bca from './bank-bca.svg';
+import Ic_bank_chase from './bank-chase.svg';
+import Ic_bank_citi from './bank-citi.svg';
+import Ic_bank_jago from './bank-jago.svg';
+import Ic_bank_mandiri from './bank-mandiri.svg';
 import Ic_camera from './camera.svg';
 import Ic_car from './car.svg';
 import Ic_close from './close.svg';
@@ -20,6 +26,7 @@ import Ic_line_chart_2 from './line-chart-2.svg';
 import Ic_logout from './logout.svg';
 import Ic_new from './new.svg';
 import Ic_notification from './notification.svg';
+import Ic_paypal from './paypal.svg';
 import Ic_pie_chart from './pie-chart.svg';
 import Ic_recurring_bill from './recurring-bill.svg';
 import Ic_restaurant from './restaurant.svg';
@@ -44,6 +51,12 @@ export {
   Ic_arrow_left_2,
   Ic_arrow_right_2,
   Ic_attachment,
+  Ic_bank_america,
+  Ic_bank_bca,
+  Ic_bank_chase,
+  Ic_bank_citi,
+  Ic_bank_jago,
+  Ic_bank_mandiri,
   Ic_camera,
   Ic_car,
   Ic_close,
@@ -60,6 +73,7 @@ export {
   Ic_logout,
   Ic_new,
   Ic_notification,
+  Ic_paypal,
   Ic_pie_chart,
   Ic_recurring_bill,
   Ic_restaurant,

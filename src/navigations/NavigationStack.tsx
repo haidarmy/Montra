@@ -1,4 +1,11 @@
-import {Login, Onboarding, SignUp} from '@pages';
+import {
+  AddNewAccountScreen,
+  LoginScreen,
+  OnboardingScreen,
+  SetupAccountScreen,
+  SignUpScreen,
+  SignUpSuccessScreen,
+} from '@pages';
 import {
   DefaultNavigatorOptions,
   NavigationContainer,
@@ -11,7 +18,6 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import * as React from 'react';
-import {View} from 'react-native';
 
 type OnboardingParamList = {
   Onboarding: undefined;
@@ -22,37 +28,32 @@ type OnboardingParamList = {
   SignUpSuccess: undefined;
 };
 
-//* add pages component dummy
-const SetupAccount = () => <View />;
-const AddNewAccount = () => <View />;
-const SignUpSuccess = () => <View />;
-
 const Stack = createNativeStackNavigator<OnboardingParamList>();
 
 const routes: Array<React.ComponentProps<typeof Stack.Screen>> = [
   {
     name: 'Onboarding',
-    component: Onboarding,
+    component: OnboardingScreen,
   },
   {
     name: 'Login',
-    component: Login,
+    component: LoginScreen,
   },
   {
     name: 'SignUp',
-    component: SignUp,
+    component: SignUpScreen,
   },
   {
     name: 'SetupAccount',
-    component: SetupAccount,
+    component: SetupAccountScreen,
   },
   {
     name: 'AddNewAccount',
-    component: AddNewAccount,
+    component: AddNewAccountScreen,
   },
   {
     name: 'SignUpSuccess',
-    component: SignUpSuccess,
+    component: SignUpSuccessScreen,
   },
 ];
 
@@ -64,7 +65,7 @@ type StackNavigatorOptions<ParamList extends ParamListBase> = DefaultNavigatorOp
 >;
 
 const appStackNavigatorProps: Omit<StackNavigatorOptions<OnboardingParamList>, 'children'> = {
-  initialRouteName: 'Onboarding',
+  initialRouteName: 'SignUpSuccess',
   screenOptions: {
     headerShown: false,
   },
