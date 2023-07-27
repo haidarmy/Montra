@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {ThemeColor, theme} from '@themes';
-import React, {ReactElement, useCallback, useMemo, useState} from 'react';
+import {InputState} from '@types';
+import {fontFamily} from '@utils';
+import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
 import {StyleSheet, TextInput, TextInputProps, TouchableOpacity, View} from 'react-native';
 
 interface InputProps extends TextInputProps {
@@ -8,6 +11,8 @@ interface InputProps extends TextInputProps {
   disabled?: boolean;
   rightIcon?: ReactElement;
   rightIconAction?(): void;
+  maxLength?: number;
+  inputState?: [InputState, React.Dispatch<React.SetStateAction<InputState>>];
 }
 
 const Input = ({
@@ -18,15 +23,32 @@ const Input = ({
   secureTextEntry,
   rightIcon,
   rightIconAction,
+  maxLength = 24,
+  inputState,
   style,
   ...props
 }: InputProps) => {
-  const [border, setBorder] = useState<ThemeColor>('white_6');
+  const [border, setBorder] = useState<ThemeColor>('white_5');
   const [visibility, setVisibility] = useState(!secureTextEntry);
+  const [input, setInput] = inputState || [];
 
-  const handleFocus = useCallback(() => setBorder(borderColorFocus), [borderColorFocus]);
+  const handleFocus = useCallback(() => {
+    setBorder(borderColorFocus);
+  }, [borderColorFocus]);
 
-  const handleBlur = useCallback(() => setBorder(borderColorUnfocus), [borderColorUnfocus]);
+  const handleBlur = useCallback(() => {
+    setBorder(borderColorUnfocus);
+  }, [borderColorUnfocus]);
+
+  const handleError = useCallback(() => {
+    if (!input) return;
+    input === 'ERROR' && setBorder('red_1');
+    input === 'NO_ERROR' && setBorder(borderColorUnfocus);
+  }, [borderColorUnfocus, input]);
+
+  useEffect(() => {
+    handleError();
+  }, [handleError]);
 
   const handleRightIconAction = useCallback(
     () => (rightIconAction ? rightIconAction : setVisibility(!visibility)),
@@ -37,19 +59,35 @@ const Input = ({
     () => (
       <TextInput
         {...props}
+        onPressOut={() => {
+          setInput && setInput('NO_ERROR');
+        }}
         secureTextEntry={!visibility}
         onChangeText={onChangeText}
         editable={!disabled}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        maxLength={maxLength}
         style={StyleSheet.flatten([
           {borderColor: theme[border]},
-          styles.inputContainer,
+          styles.input,
           !rightIcon && style,
         ])}
       />
     ),
-    [border, disabled, handleBlur, handleFocus, onChangeText, props, rightIcon, style, visibility],
+    [
+      props,
+      visibility,
+      onChangeText,
+      disabled,
+      handleFocus,
+      handleBlur,
+      maxLength,
+      border,
+      rightIcon,
+      style,
+      setInput,
+    ],
   );
 
   const handleRenderInputWithIcon = useMemo(
@@ -70,12 +108,14 @@ const Input = ({
 export default Input;
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  input: {
     paddingVertical: 12,
     paddingHorizontal: 16,
     color: theme.black_2,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderRadius: 16,
+    fontFamily: fontFamily['regular_3'],
+    fontSize: 16,
   },
   iconContainer: {
     justifyContent: 'center',

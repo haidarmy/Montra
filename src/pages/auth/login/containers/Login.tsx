@@ -1,34 +1,127 @@
-import {Button, Gap, Icon, Input, Text} from '@components';
+import {Alert, Button, Icon, Input, Text} from '@components';
+import {useForm} from '@hooks';
+import {AuthScreenNavigationProp} from '@navigations';
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
 import {theme} from '@themes';
-import React from 'react';
+import {AuthErrorType, InputState} from '@types';
+import {getErrorMessage} from '@utils';
+import React, {useCallback, useMemo, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const Login = () => {
-  return (
-    <View style={{flex: 1, backgroundColor: theme.white_1}}>
-      <View style={{paddingHorizontal: 16}}>
-        <Gap height={56} />
-        <Input style={{marginBottom: 24}} placeholder="Email" />
+  const navigation = useNavigation<AuthScreenNavigationProp>();
+  const {setItem} = useAsyncStorage('user');
+  const inputState = useState<InputState>('NO_ERROR');
+  const setInput = inputState[1];
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useForm({
+    email: '',
+    password: '',
+  });
+
+  const handleSubmit = useCallback(async () => {
+    if (!form.email || !form.password) {
+      setInput('ERROR');
+      setForm('password', '');
+      return Alert.Error('Please fill out all required fields.');
+    }
+    try {
+      setLoading(true);
+      const {
+        user: {uid},
+      } = await auth().signInWithEmailAndPassword(form.email, form.password);
+      const userData = {email: form.email, id: uid};
+      await setItem(JSON.stringify(userData));
+      setLoading(false);
+      //TODO need to replace with home screen route later
+      navigation.reset({index: 0, routes: [{name: 'SetupAccount'}]});
+      setForm('reset');
+    } catch (e) {
+      setInput('ERROR');
+      setForm('password', '');
+      setLoading(false);
+      const error = e as FirebaseAuthTypes.PhoneAuthError;
+      Alert.Error(getErrorMessage(error.code as AuthErrorType));
+    }
+  }, [form.email, form.password, navigation, setForm, setInput, setItem]);
+
+  const handleNavigateToSignUp = useCallback(() => {
+    navigation.navigate('SignUp');
+    setInput('NO_ERROR');
+    setForm('reset');
+  }, [navigation, setForm, setInput]);
+
+  const renderInputForms = useMemo(
+    () => (
+      <>
+        <Input
+          style={{marginBottom: 24}}
+          placeholder="Email"
+          inputState={inputState}
+          value={form.email}
+          onChangeText={value => setForm('email', value)}
+        />
         <Input
           style={{marginBottom: 40}}
           placeholder="Password"
+          inputState={inputState}
+          value={form.password}
+          onChangeText={value => setForm('password', value)}
           secureTextEntry
           rightIcon={
             <Icon type={'show_outline'} stroke={theme['white_6']} fill={theme['white_1']} />
           }
         />
-        <Button color="violet_1" type="solid" tittle="Login" tittleColor="white_1" />
-        <Gap height={24} />
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text type="regular_2" color="white_6">
-            Don’t have an account yet?{' '}
+        <Button
+          color="violet_1"
+          type="solid"
+          tittle="Login"
+          tittleColor="white_1"
+          style={{marginBottom: 24}}
+          onPress={handleSubmit}
+        />
+      </>
+    ),
+    [form.email, form.password, handleSubmit, inputState, setForm],
+  );
+
+  const renderSignUp = useMemo(
+    () => (
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <Text type="regular_2" color="white_6">
+          Don’t have an account yet?{' '}
+        </Text>
+        <TouchableOpacity activeOpacity={0.7} onPress={handleNavigateToSignUp}>
+          <Text type="regular_2" color="violet_1">
+            Sign Up
           </Text>
-          <TouchableOpacity activeOpacity={0.7}>
-            <Text type="regular_2" color="violet_1">
-              Sign Up
-            </Text>
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
+    ),
+    [handleNavigateToSignUp],
+  );
+
+  const renderLoadingSpinner = useMemo(
+    () => (
+      <Spinner
+        visible={loading}
+        textContent={'loading...'}
+        color={theme.white_4}
+        textStyle={{color: theme.white_4}}
+      />
+    ),
+    [loading],
+  );
+
+  return (
+    <View style={{flex: 1, backgroundColor: theme.white_1}}>
+      <View style={{paddingHorizontal: 16, marginTop: 56}}>
+        {renderInputForms}
+        {renderSignUp}
+        {renderLoadingSpinner}
       </View>
     </View>
   );

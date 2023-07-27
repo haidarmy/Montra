@@ -1,11 +1,13 @@
 import NavigationStack from '@navigations/NavigationStack';
-import React, {useEffect} from 'react';
-import SplashScreen from 'react-native-splash-screen';
+import React from 'react';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-  return <NavigationStack />;
+  return (
+    <>
+      <FlashMessage position="top" />
+      <NavigationStack />
+    </>
+  );
 };
 export default App;

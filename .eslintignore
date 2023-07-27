@@ -5,3 +5,4 @@ react-native.config.ts
 **/*.config.js
 **/*.test.tsx
 declarations.d.ts
+ReactotronConfig.ts

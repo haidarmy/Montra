@@ -28,8 +28,8 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
   rules: {
-    indent: ['error', 2, { SwitchCase: 1 }],
-    quotes: ['error', 'single', { avoidEscape: true }],
+    indent: ['error', 2, {SwitchCase: 1}],
+    quotes: ['error', 'single', {avoidEscape: true}],
     semi: ['error', 'always'],
     'linebreak-style': ['error', 'unix'],
     'no-empty-function': 'off',
@@ -39,6 +39,13 @@ module.exports = {
     'prettier/prettier': 'error',
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-floating-promises': ['warn'],
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: false,
+      },
+    ],
   },
   settings: {
     react: {

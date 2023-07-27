@@ -1,9 +1,13 @@
-import {StyleSheet, View} from 'react-native';
 import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Button, Text} from '@components';
 import {theme} from '@themes';
+import {AuthScreenNavigationProp} from '@navigations';
 
 const SetupAccount = () => {
+  const navigation = useNavigation<AuthScreenNavigationProp>();
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
@@ -17,6 +21,7 @@ const SetupAccount = () => {
         color="violet_1"
         tittle="Let’s go"
         tittleColor="white_1"
+        onPress={() => navigation.replace('AddNewAccount')}
         style={{marginBottom: 50}}
       />
     </View>

@@ -15,11 +15,12 @@ import {
 import {
   NativeStackNavigationEventMap,
   NativeStackNavigationOptions,
+  NativeStackNavigationProp,
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-type OnboardingParamList = {
+type AuthParamList = {
   Onboarding: undefined;
   Login: undefined;
   SignUp: undefined;
@@ -28,7 +29,9 @@ type OnboardingParamList = {
   SignUpSuccess: undefined;
 };
 
-const Stack = createNativeStackNavigator<OnboardingParamList>();
+export type AuthScreenNavigationProp = NativeStackNavigationProp<AuthParamList>;
+
+const Stack = createNativeStackNavigator<AuthParamList>();
 
 const routes: Array<React.ComponentProps<typeof Stack.Screen>> = [
   {
@@ -64,10 +67,11 @@ type StackNavigatorOptions<ParamList extends ParamListBase> = DefaultNavigatorOp
   NativeStackNavigationEventMap
 >;
 
-const appStackNavigatorProps: Omit<StackNavigatorOptions<OnboardingParamList>, 'children'> = {
-  initialRouteName: 'SignUpSuccess',
+const appStackNavigatorProps: Omit<StackNavigatorOptions<AuthParamList>, 'children'> = {
+  initialRouteName: 'Onboarding',
   screenOptions: {
     headerShown: false,
+    animation: 'none',
   },
 };
 

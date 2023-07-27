@@ -1,4 +1,4 @@
-import {FONT_FAMILY} from '@constants/fonts';
+import {FONT_FAMILY} from '@constants';
 import {TextTypeMap} from '@types';
 
 export const fontFamily: TextTypeMap<string> = {
