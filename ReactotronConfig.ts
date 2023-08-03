@@ -5,7 +5,8 @@ import Reactotron, {
   overlay,
   trackGlobalErrors,
 } from 'reactotron-react-native';
-
+import reactotronZustand from 'reactotron-plugin-zustand';
+import {useAuthStore} from './src/zustand';
 namespace LogConfig {
   let isLogEnable = false;
   /**
@@ -22,6 +23,11 @@ namespace LogConfig {
       .configure({name: 'Montra'}) // controls connection & communication settings
       .useReactNative() // add all built-in react native plugins
       .use(overlay())
+      .use(
+        reactotronZustand({
+          stores: [{name: 'authentication', zustand: useAuthStore}],
+        }),
+      )
       .use(
         networking({
           ignoreContentTypes: /^(image)\/.*$/i,

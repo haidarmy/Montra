@@ -34,6 +34,7 @@ module.exports = {
     'linebreak-style': ['error', 'unix'],
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'react/display-name': 'off',
     'react/prop-types': 'off',
     'prettier/prettier': 'error',

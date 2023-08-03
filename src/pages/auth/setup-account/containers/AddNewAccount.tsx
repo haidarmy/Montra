@@ -1,17 +1,18 @@
 import {Alert, Button, Icon, Input, Text} from '@components';
 import {useForm} from '@hooks';
+import {AuthScreenNavigationProp} from '@navigations';
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
 import {theme} from '@themes';
 import {BankType, InputState, UserData} from '@types';
 import {fontFamily} from '@utils';
 import React, {ReactElement, useCallback, useMemo, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import CurrencyInput from 'react-native-currency-input';
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const AddNewAccount = () => {
-  const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<AuthScreenNavigationProp>();
   const {getItem} = useAsyncStorage('user');
   const inputState = useState<InputState>('NO_ERROR');
   const setInput = inputState[1];
@@ -27,19 +28,17 @@ const AddNewAccount = () => {
       return Alert.Error('Please fill out all required fields.');
     }
     try {
-      setLoading(true);
       const userData = await getItem();
       const {id: uid} = JSON.parse(userData ?? '') as UserData;
       if (!uid) return Alert.Error('Failed to user wallet data');
       const walletCollection = firestore().collection('Wallets');
       await walletCollection.doc(uid).collection('userWallets').add(form);
-      setLoading(false);
+      navigation.replace('SignUpSuccess');
     } catch (e) {
-      setLoading(false);
       Alert.Error('Failed to user wallet data');
     }
     setForm('reset');
-  }, [form, getItem, setForm, setInput]);
+  }, [form, navigation]);
 
   const renderBalanceInput = useMemo(
     () => (
@@ -121,23 +120,10 @@ const AddNewAccount = () => {
     );
   }, [form.cardHolderName, handleSubmit, inputState, renderBankIcon, setForm]);
 
-  const renderLoadingSpinner = useMemo(
-    () => (
-      <Spinner
-        visible={loading}
-        textContent={'loading...'}
-        color={theme.white_4}
-        textStyle={{color: theme.white_4}}
-      />
-    ),
-    [loading],
-  );
-
   return (
     <View style={styles.page}>
       {renderBalanceInput}
       {renderSheetMenu}
-      {renderLoadingSpinner}
     </View>
   );
 };

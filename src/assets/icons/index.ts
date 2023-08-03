@@ -15,7 +15,7 @@ import Ic_car from './car.svg';
 import Ic_close from './close.svg';
 import Ic_create_outline from './create-outline.svg';
 import Ic_create from './create.svg';
-import Ic_currency_exchange from './currency-exchange.svg';
+import Ic_cross from './cross.svg';
 import Ic_download from './download.svg';
 import Ic_edit_outline from './edit-outline.svg';
 import Ic_expense from './expense.svg';
@@ -28,6 +28,7 @@ import Ic_new from './new.svg';
 import Ic_notification from './notification.svg';
 import Ic_paypal from './paypal.svg';
 import Ic_pie_chart from './pie-chart.svg';
+import Ic_plus from './plus.svg';
 import Ic_recurring_bill from './recurring-bill.svg';
 import Ic_restaurant from './restaurant.svg';
 import Ic_salary from './salary.svg';
@@ -39,6 +40,7 @@ import Ic_sort_highest_lowest from './sort-highest-lowest.svg';
 import Ic_sort from './sort.svg';
 import Ic_success from './success.svg';
 import Ic_transaction from './transaction.svg';
+import Ic_transfer from './transfer.svg';
 import Ic_trash from './trash.svg';
 import Ic_user from './user.svg';
 import Ic_wallet_3 from './wallet-3.svg';
@@ -62,7 +64,7 @@ export {
   Ic_close,
   Ic_create_outline,
   Ic_create,
-  Ic_currency_exchange,
+  Ic_cross,
   Ic_download,
   Ic_edit_outline,
   Ic_expense,
@@ -75,6 +77,7 @@ export {
   Ic_notification,
   Ic_paypal,
   Ic_pie_chart,
+  Ic_plus,
   Ic_recurring_bill,
   Ic_restaurant,
   Ic_salary,
@@ -86,6 +89,7 @@ export {
   Ic_sort,
   Ic_success,
   Ic_transaction,
+  Ic_transfer,
   Ic_trash,
   Ic_user,
   Ic_wallet_3,

@@ -1,9 +1,21 @@
 import {Icon, Text} from '@components';
+import {AuthScreenNavigationProp} from '@navigations';
+import {useNavigation} from '@react-navigation/native';
 import {theme} from '@themes';
-import React from 'react';
+import {useAuthStore} from '@zustand';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 
 const SignUpSuccess = () => {
+  const navigation = useNavigation<AuthScreenNavigationProp>();
+  const dispatch = useAuthStore(state => state.dispatch);
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch({type: 'SETUP_ACCOUNT', value: true});
+    }, 2000);
+  }, [navigation]);
+
   return (
     <View
       style={{

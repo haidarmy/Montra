@@ -3,5 +3,5 @@
     "source.fixAll.eslint": true
   },
   "editor.formatOnSave": true,
-  "cSpell.words": ["Reactotron", "Unfocus"]
+  "cSpell.words": ["firestore", "navigations", "Reactotron", "Unfocus", "zustand"]
 }

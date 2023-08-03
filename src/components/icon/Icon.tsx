@@ -17,7 +17,7 @@ import {
   Ic_close,
   Ic_create,
   Ic_create_outline,
-  Ic_currency_exchange,
+  Ic_cross,
   Ic_download,
   Ic_edit_outline,
   Ic_expense,
@@ -30,6 +30,7 @@ import {
   Ic_notification,
   Ic_paypal,
   Ic_pie_chart,
+  Ic_plus,
   Ic_recurring_bill,
   Ic_restaurant,
   Ic_salary,
@@ -41,6 +42,7 @@ import {
   Ic_sort_highest_lowest,
   Ic_success,
   Ic_transaction,
+  Ic_transfer,
   Ic_trash,
   Ic_user,
   Ic_wallet_3,
@@ -114,16 +116,10 @@ const Icon = ({
       );
     case 'create':
       return <Ic_create width={width} height={height} fill={fill} stroke={stroke} {...props} />;
-    case 'currency_exchange':
-      return (
-        <Ic_currency_exchange
-          width={width}
-          height={height}
-          fill={fill}
-          stroke={stroke}
-          {...props}
-        />
-      );
+    case 'cross':
+      return <Ic_cross width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'transfer':
+      return <Ic_transfer width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'download':
       return <Ic_download width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'edit_outline':
@@ -150,14 +146,16 @@ const Icon = ({
       return (
         <Ic_notification width={width} height={height} fill={fill} stroke={stroke} {...props} />
       );
+    case 'paypal':
+      return <Ic_paypal width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'plus':
+      return <Ic_plus width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'pie_chart':
       return <Ic_pie_chart width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'recurring_bill':
       return (
         <Ic_recurring_bill width={width} height={height} fill={fill} stroke={stroke} {...props} />
       );
-    case 'paypal':
-      return <Ic_paypal width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'restaurant':
       return <Ic_restaurant width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'salary':

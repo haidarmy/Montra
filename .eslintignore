@@ -6,3 +6,4 @@ react-native.config.ts
 **/*.test.tsx
 declarations.d.ts
 ReactotronConfig.ts
+/src/navigations/BottomNavigation.tsx

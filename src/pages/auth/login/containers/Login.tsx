@@ -7,16 +7,17 @@ import {useNavigation} from '@react-navigation/native';
 import {theme} from '@themes';
 import {AuthErrorType, InputState} from '@types';
 import {getErrorMessage} from '@utils';
+import {useAuthStore} from '@zustand';
 import React, {useCallback, useMemo, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const Login = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
+  const dispatch = useAuthStore(state => state.dispatch);
+  const {setItem: setAppStatus} = useAsyncStorage('app-status');
   const {setItem} = useAsyncStorage('user');
   const inputState = useState<InputState>('NO_ERROR');
   const setInput = inputState[1];
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useForm({
     email: '',
     password: '',
@@ -29,24 +30,23 @@ const Login = () => {
       return Alert.Error('Please fill out all required fields.');
     }
     try {
-      setLoading(true);
+      dispatch({type: 'LOADING', value: true});
       const {
         user: {uid},
       } = await auth().signInWithEmailAndPassword(form.email, form.password);
       const userData = {email: form.email, id: uid};
       await setItem(JSON.stringify(userData));
-      setLoading(false);
-      //TODO need to replace with home screen route later
-      navigation.reset({index: 0, routes: [{name: 'SetupAccount'}]});
+      await setAppStatus(JSON.stringify({hadRegistered: true}));
+      // dispatch({type: 'LOADING', value: false});
       setForm('reset');
     } catch (e) {
       setInput('ERROR');
       setForm('password', '');
-      setLoading(false);
+      dispatch({type: 'LOADING', value: false});
       const error = e as FirebaseAuthTypes.PhoneAuthError;
       Alert.Error(getErrorMessage(error.code as AuthErrorType));
     }
-  }, [form.email, form.password, navigation, setForm, setInput, setItem]);
+  }, [dispatch, form.email, form.password, setForm, setInput, setItem]);
 
   const handleNavigateToSignUp = useCallback(() => {
     navigation.navigate('SignUp');
@@ -104,24 +104,11 @@ const Login = () => {
     [handleNavigateToSignUp],
   );
 
-  const renderLoadingSpinner = useMemo(
-    () => (
-      <Spinner
-        visible={loading}
-        textContent={'loading...'}
-        color={theme.white_4}
-        textStyle={{color: theme.white_4}}
-      />
-    ),
-    [loading],
-  );
-
   return (
     <View style={{flex: 1, backgroundColor: theme.white_1}}>
       <View style={{paddingHorizontal: 16, marginTop: 56}}>
         {renderInputForms}
         {renderSignUp}
-        {renderLoadingSpinner}
       </View>
     </View>
   );
