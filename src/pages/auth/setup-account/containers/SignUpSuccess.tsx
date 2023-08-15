@@ -1,10 +1,10 @@
-import {Icon, Text} from '@components';
-import {AuthScreenNavigationProp} from '@navigations';
-import {useNavigation} from '@react-navigation/native';
-import {theme} from '@themes';
-import {useAuthStore} from '@zustand';
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Icon, Text} from '@components';
+import {AuthScreenNavigationProp} from '@navigations';
+import {theme} from '@themes';
+import {useAuthStore} from '@zustand';
 
 const SignUpSuccess = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();

@@ -1,7 +1,7 @@
-import {Text} from '@components/text';
-import {ThemeColor, theme} from '@themes';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {Text} from '@components/text';
+import {ThemeColor, theme} from '@themes';
 
 interface ButtonProps extends TouchableOpacityProps {
   type: 'solid' | 'outline';

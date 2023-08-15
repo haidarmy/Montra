@@ -1,9 +1,9 @@
-import RootStack from '@navigations/RootStack';
-import {theme} from '@themes';
-import {useAuthStore} from '@zustand';
 import React, {useMemo} from 'react';
 import FlashMessage from 'react-native-flash-message';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
+import RootStack from '@navigations/RootStack';
+import {theme} from '@themes';
+import {useAuthStore} from '@zustand';
 
 const App = () => {
   const isLoading = useAuthStore(state => state.isLoading);

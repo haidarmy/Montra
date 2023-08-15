@@ -31,6 +31,7 @@ module.exports = {
     indent: ['error', 2, {SwitchCase: 1}],
     quotes: ['error', 'single', {avoidEscape: true}],
     semi: ['error', 'always'],
+    indent: 'off',
     'linebreak-style': ['error', 'unix'],
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'off',

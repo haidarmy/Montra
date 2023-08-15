@@ -1,6 +1,6 @@
+import React from 'react';
 import {Il_data, Il_mail, Il_money, Il_plan, Il_receipt} from '@assets';
 import {IllustrationType} from '@types';
-import React from 'react';
 
 type IllustrationProps = {
   type: IllustrationType;

@@ -1,3 +1,8 @@
+import * as React from 'react';
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from '@react-navigation/native-stack';
 import {
   AddNewAccountScreen,
   LoginScreen,
@@ -6,11 +11,6 @@ import {
   SignUpScreen,
   SignUpSuccessScreen,
 } from '@pages';
-import {
-  NativeStackNavigationProp,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
-import * as React from 'react';
 
 type AuthStackParamList = {
   Onboarding: undefined;

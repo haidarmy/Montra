@@ -1,15 +1,15 @@
-import {Alert, Button, Icon, Input, Text} from '@components';
-import {useForm} from '@hooks';
-import {AuthScreenNavigationProp} from '@navigations';
+import React, {useCallback, useMemo, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
+import {Alert, Button, Icon, Input, Text} from '@components';
+import {useForm} from '@hooks';
+import {AuthScreenNavigationProp} from '@navigations';
 import {theme} from '@themes';
 import {AuthErrorType, InputState} from '@types';
 import {getErrorMessage} from '@utils';
 import {useAuthStore} from '@zustand';
-import React, {useCallback, useMemo, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
 
 const Login = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
@@ -37,15 +37,14 @@ const Login = () => {
       const userData = {email: form.email, id: uid};
       await setItem(JSON.stringify(userData));
       await setAppStatus(JSON.stringify({hadRegistered: true}));
-      // dispatch({type: 'LOADING', value: false});
       setForm('reset');
     } catch (e) {
       setInput('ERROR');
       setForm('password', '');
-      dispatch({type: 'LOADING', value: false});
       const error = e as FirebaseAuthTypes.PhoneAuthError;
       Alert.Error(getErrorMessage(error.code as AuthErrorType));
     }
+    dispatch({type: 'LOADING', value: false});
   }, [dispatch, form.email, form.password, setForm, setInput, setItem]);
 
   const handleNavigateToSignUp = useCallback(() => {

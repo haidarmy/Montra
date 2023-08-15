@@ -1,24 +1,27 @@
-import {Alert, Button, Icon, Input, Text} from '@components';
-import {useForm} from '@hooks';
-import {AuthScreenNavigationProp} from '@navigations';
+import React, {useCallback, useMemo, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import {Alert, Button, Icon, Input, Text} from '@components';
+import {useForm} from '@hooks';
+import {AuthScreenNavigationProp} from '@navigations';
 import {theme} from '@themes';
 import {AuthErrorType, InputState} from '@types';
 import {getErrorMessage} from '@utils';
-import React, {useCallback, useMemo, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
+import {useAuthStore} from '@zustand';
 
 const SignUp = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
+
   const {setItem} = useAsyncStorage('user');
   const {setItem: setAppStatus} = useAsyncStorage('app-status');
+
+  const dispatch = useAuthStore(state => state.dispatch);
+
   const inputState = useState<InputState>('NO_ERROR');
   const setInput = inputState[1];
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useForm({
     name: '',
     email: '',
@@ -33,11 +36,11 @@ const SignUp = () => {
         const userData = {email: form.email, id: uid};
         await setItem(JSON.stringify(userData));
         await setAppStatus(JSON.stringify({hadRegistered: true}));
-        setLoading(false);
+        dispatch({type: 'LOADING', value: false});
         navigation.reset({index: 0, routes: [{name: 'SetupAccount'}]});
         setForm('reset');
       } catch (e) {
-        setLoading(false);
+        dispatch({type: 'LOADING', value: false});
         Alert.Error('Failed to add user data');
       }
     },
@@ -51,7 +54,7 @@ const SignUp = () => {
       return Alert.Error('Please fill out all required fields.');
     }
     try {
-      setLoading(true);
+      dispatch({type: 'LOADING', value: true});
       const {
         user: {uid},
       } = await auth().createUserWithEmailAndPassword(form.email, form.password);
@@ -59,7 +62,7 @@ const SignUp = () => {
     } catch (e) {
       setInput('ERROR');
       setForm('password', '');
-      setLoading(false);
+      dispatch({type: 'LOADING', value: false});
       const error = e as FirebaseAuthTypes.PhoneAuthError;
       Alert.Error(getErrorMessage(error.code as AuthErrorType));
     }
@@ -127,24 +130,11 @@ const SignUp = () => {
     [handleNavigateToLogin],
   );
 
-  const renderLoadingSpinner = useMemo(
-    () => (
-      <Spinner
-        visible={loading}
-        textContent={'loading...'}
-        color={theme.white_4}
-        textStyle={{color: theme.white_4}}
-      />
-    ),
-    [loading],
-  );
-
   return (
     <View style={{flex: 1, backgroundColor: theme.white_1}}>
       <View style={{paddingHorizontal: 16, marginTop: 56}}>
         {renderInputForms}
         {renderLogin}
-        {renderLoadingSpinner}
       </View>
     </View>
   );

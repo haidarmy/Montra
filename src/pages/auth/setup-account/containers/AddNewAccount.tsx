@@ -1,22 +1,22 @@
-import {Alert, Button, Icon, Input, Text} from '@components';
-import {useForm} from '@hooks';
-import {AuthScreenNavigationProp} from '@navigations';
-import {useAsyncStorage} from '@react-native-async-storage/async-storage';
-import firestore from '@react-native-firebase/firestore';
-import {useNavigation} from '@react-navigation/native';
-import {theme} from '@themes';
-import {BankType, InputState, UserData} from '@types';
-import {fontFamily} from '@utils';
 import React, {ReactElement, useCallback, useMemo, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
+import {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import {useNavigation} from '@react-navigation/native';
+import {Alert, Button, Icon, Input, Text} from '@components';
+import {useForm} from '@hooks';
+import {AuthScreenNavigationProp} from '@navigations';
+import {theme} from '@themes';
+import {BankType, InputState, UserData, UserWalletData} from '@types';
+import {fontFamily} from '@utils';
 
 const AddNewAccount = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();
   const {getItem} = useAsyncStorage('user');
   const inputState = useState<InputState>('NO_ERROR');
   const setInput = inputState[1];
-  const [form, setForm] = useForm({
+  const [form, setForm] = useForm<UserWalletData>({
     balance: 0,
     bank: '' as BankType,
     cardHolderName: '',
@@ -30,12 +30,12 @@ const AddNewAccount = () => {
     try {
       const userData = await getItem();
       const {id: uid} = JSON.parse(userData ?? '') as UserData;
-      if (!uid) return Alert.Error('Failed to user wallet data');
+      if (!uid) return Alert.Error('Failed to add user wallet data');
       const walletCollection = firestore().collection('Wallets');
       await walletCollection.doc(uid).collection('userWallets').add(form);
       navigation.replace('SignUpSuccess');
     } catch (e) {
-      Alert.Error('Failed to user wallet data');
+      Alert.Error('Failed to add user wallet data');
     }
     setForm('reset');
   }, [form, navigation]);

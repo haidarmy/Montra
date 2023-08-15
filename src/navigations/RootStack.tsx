@@ -1,10 +1,10 @@
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import SplashScreen from 'react-native-splash-screen';
 import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
 import {useAuthStore} from '@zustand';
-import React, {useCallback, useEffect, useMemo} from 'react';
-import SplashScreen from 'react-native-splash-screen';
 import AuthStack from './AuthStack';
 import HomeTab from './HomeTab';
 
@@ -13,13 +13,14 @@ type AppStatusType = {
 };
 
 const RootStack = () => {
-  const {dispatch, isLoading, isLogin, hadRegistered, hadSetupAccount} = useAuthStore(state => ({
+  const {dispatch, isLogin, hadRegistered, hadSetupAccount} = useAuthStore(state => ({
     dispatch: state.dispatch,
-    isLoading: state.isLoading,
     isLogin: state.isLogin,
     hadRegistered: state.hadRegistered,
     hadSetupAccount: state.hadSetupAccount,
   }));
+
+  const [loading, setLoading] = useState(true);
 
   const {getItem: getAppStatus} = useAsyncStorage('app-status');
 
@@ -40,17 +41,17 @@ const RootStack = () => {
 
   const handleIsLoggedIn = useCallback(() => {
     auth().onAuthStateChanged(async userState => {
-      if (!userState) return dispatch({type: 'LOADING', value: false});
+      if (!userState) return setLoading(false);
       dispatch({type: 'LOGIN', value: true});
       await handleCheckUserAccountSetup(userState);
-      return dispatch({type: 'LOADING', value: false});
+      return setLoading(false);
     });
   }, [handleCheckUserAccountSetup]);
 
   const handleAppStatus = useCallback(async () => {
     const appStatus = await getAppStatus();
     const {hadRegistered: registered} = (JSON.parse(appStatus!) as AppStatusType) ?? {};
-    if (!registered) return dispatch({type: 'LOADING', value: false});
+    if (!registered) return setLoading(false);
     dispatch({type: 'REGISTERED', value: registered});
     handleIsLoggedIn();
   }, [handleIsLoggedIn]);
@@ -60,24 +61,25 @@ const RootStack = () => {
   }, [handleAppStatus]);
 
   useEffect(() => {
-    !isLoading && SplashScreen.hide();
-  }, [isLoading]);
+    !loading && SplashScreen.hide();
+  }, [loading]);
 
   const renderAppRoutes = useMemo(() => {
-    if (isLoading) return;
-    if (hadRegistered && isLogin && hadSetupAccount) {
-      return <HomeTab />;
+    if (!loading) {
+      if (hadRegistered && isLogin && hadSetupAccount) {
+        return <HomeTab />;
+      }
+      if (hadRegistered && isLogin && !hadSetupAccount) {
+        return <AuthStack initialRoute="SetupAccount" />;
+      }
+      if (hadRegistered && !isLogin && !hadSetupAccount) {
+        return <AuthStack initialRoute="Login" />;
+      }
+      if (!hadRegistered && !isLogin && !hadSetupAccount) {
+        return <AuthStack initialRoute="Onboarding" />;
+      }
     }
-    if (hadRegistered && isLogin && !hadSetupAccount) {
-      return <AuthStack initialRoute="SetupAccount" />;
-    }
-    if (hadRegistered && !isLogin && !hadSetupAccount) {
-      return <AuthStack initialRoute="Login" />;
-    }
-    if (!hadRegistered && !isLogin && !hadSetupAccount) {
-      return <AuthStack initialRoute="Onboarding" />;
-    }
-  }, [hadRegistered, hadSetupAccount, isLoading, isLogin]);
+  }, [hadRegistered, hadSetupAccount, loading, isLogin]);
 
   return <NavigationContainer>{renderAppRoutes}</NavigationContainer>;
 };

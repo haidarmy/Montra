@@ -14,6 +14,7 @@ import {
   Ic_bank_mandiri,
   Ic_camera,
   Ic_car,
+  Ic_check,
   Ic_close,
   Ic_create,
   Ic_create_outline,
@@ -21,6 +22,8 @@ import {
   Ic_download,
   Ic_edit_outline,
   Ic_expense,
+  Ic_file,
+  Ic_flash,
   Ic_gallery,
   Ic_home,
   Ic_income,
@@ -43,13 +46,14 @@ import {
   Ic_success,
   Ic_transaction,
   Ic_transfer,
+  Ic_transfer_alternate,
   Ic_trash,
   Ic_user,
   Ic_wallet_3,
   Ic_warning,
 } from '@assets';
-import {IconType} from '@types';
 import {theme} from '@themes';
+import {IconType} from '@types';
 
 type IconProps = {
   type: IconType;
@@ -108,6 +112,8 @@ const Icon = ({
       return <Ic_camera width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'car':
       return <Ic_car width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'check':
+      return <Ic_check width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'close':
       return <Ic_close width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'create_outline':
@@ -118,8 +124,6 @@ const Icon = ({
       return <Ic_create width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'cross':
       return <Ic_cross width={width} height={height} fill={fill} stroke={stroke} {...props} />;
-    case 'transfer':
-      return <Ic_transfer width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'download':
       return <Ic_download width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'edit_outline':
@@ -128,6 +132,10 @@ const Icon = ({
       );
     case 'expense':
       return <Ic_expense width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'file':
+      return <Ic_file width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'flash':
+      return <Ic_flash width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'gallery':
       return <Ic_gallery width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'home':
@@ -190,6 +198,10 @@ const Icon = ({
       return (
         <Ic_transaction width={width} height={height} fill={fill} stroke={stroke} {...props} />
       );
+    case 'transfer':
+      return <Ic_transfer width={width} height={height} fill={fill} stroke={stroke} {...props} />;
+    case 'transfer_alternate':
+      return <Ic_transfer_alternate width={width} height={height} {...props} />;
     case 'trash':
       return <Ic_trash width={width} height={height} fill={fill} stroke={stroke} {...props} />;
     case 'user':

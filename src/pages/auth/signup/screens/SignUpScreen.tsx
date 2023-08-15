@@ -1,6 +1,6 @@
+import React from 'react';
 import {Screen} from '@components';
 import {Header} from '@components/header';
-import React from 'react';
 import {SignUp} from '../containers';
 
 const SignUpScreen = () => {

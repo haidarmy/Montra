@@ -1,7 +1,7 @@
-import {Illustration, Text} from '@components';
-import {IllustrationType} from '@types';
 import React from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
+import {Illustration, Text} from '@components';
+import {IllustrationType} from '@types';
 
 type OnboardingSceneProps = {
   illustration: IllustrationType;

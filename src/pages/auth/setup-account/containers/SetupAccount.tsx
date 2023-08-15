@@ -2,8 +2,8 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {Button, Text} from '@components';
-import {theme} from '@themes';
 import {AuthScreenNavigationProp} from '@navigations';
+import {theme} from '@themes';
 
 const SetupAccount = () => {
   const navigation = useNavigation<AuthScreenNavigationProp>();

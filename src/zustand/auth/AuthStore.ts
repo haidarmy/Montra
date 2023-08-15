@@ -1,5 +1,5 @@
-import {createWithEqualityFn} from 'zustand/traditional';
 import {shallow} from 'zustand/shallow';
+import {createWithEqualityFn} from 'zustand/traditional';
 
 type UpdateType = 'LOADING' | 'LOGIN' | 'SETUP_ACCOUNT' | 'REGISTERED';
 
@@ -36,7 +36,7 @@ const authReducer = (state: State, action: Action) => {
 
 export const useAuthStore = createWithEqualityFn<State & Actions>()(
   set => ({
-    isLoading: true,
+    isLoading: false,
     isLogin: false,
     hadSetupAccount: false,
     hadRegistered: false,

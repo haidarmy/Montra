@@ -1,6 +1,6 @@
-import {theme} from '@themes';
 import React from 'react';
 import OnboardingAnimate from 'react-native-onboarding-animate';
+import {theme} from '@themes';
 import OnboardingScene from './OnboardingScene';
 
 const OnboardingBox = () => {

@@ -1,15 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import {Icon, Text} from '@components';
-import ActionButton from '@components/action-button/ActionButton';
-import {theme} from '@themes';
-import {IconType} from '@types';
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
+import {ActionButton, Icon, MenuType, Text} from '@components';
+import {ExpenseScreen, IncomeScreen, TransferScreen} from '@pages';
+import {theme} from '@themes';
+import {IconType} from '@types';
 
 type HomeTabParamList = {
   Home: undefined;
@@ -49,6 +53,16 @@ type RenderTabProps = {
 };
 
 const HomeTab = () => {
+  const menuState = useState<MenuType>();
+  const menu = menuState[0];
+
+  const renderMenu = useMemo(() => {
+    if (!menu) return null;
+    if (menu === 'TRANSFER') return <TransferScreen menuState={menuState} />;
+    if (menu === 'EXPENSE') return <ExpenseScreen menuState={menuState} />;
+    if (menu === 'INCOME') return <IncomeScreen menuState={menuState} />;
+  }, [menu, menuState]);
+
   const _renderIcon = useCallback((routeName: Name, selectedTab: Name) => {
     let icon = '' as IconType;
 
@@ -98,7 +112,11 @@ const HomeTab = () => {
   );
 
   const routes: Array<HomeTabRoutesType> = [
-    {name: 'Home', position: 'LEFT', component: () => <Home />},
+    {
+      name: 'Home',
+      position: 'LEFT',
+      component: () => <Home />,
+    },
     {name: 'Transaction', position: 'LEFT', component: () => <Transaction />},
     {name: 'Budget', position: 'RIGHT', component: () => <Budget />},
     {name: 'Profile', position: 'RIGHT', component: () => <Profile />},
@@ -120,7 +138,7 @@ const HomeTab = () => {
       circleWidth: 55,
       bgColor: theme.white_1,
       renderCircle: ({selectedTab, navigate}) => {
-        return <ActionButton />;
+        return <ActionButton menuState={menuState} />;
       },
       tabBar: renderTabBar as ({
         routeName,
@@ -132,15 +150,27 @@ const HomeTab = () => {
         navigate: (selectedTab: string) => void;
       }) => JSX.Element,
     }),
-    [renderTabBar],
+    [menuState, renderTabBar],
+  );
+
+  const renderTabNav = useMemo(
+    () =>
+      !menu && (
+        <CurvedBottomBar.Navigator {...homeTabNavigatorProps}>
+          {routes.map(routeConfig => (
+            <CurvedBottomBar.Screen key={routeConfig.name} {...(routeConfig as CurvedTabRoutes)} />
+          ))}
+        </CurvedBottomBar.Navigator>
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [homeTabNavigatorProps, menu],
   );
 
   return (
-    <CurvedBottomBar.Navigator {...homeTabNavigatorProps}>
-      {routes.map(routeConfig => (
-        <CurvedBottomBar.Screen key={routeConfig.name} {...(routeConfig as CurvedTabRoutes)} />
-      ))}
-    </CurvedBottomBar.Navigator>
+    <>
+      {renderMenu}
+      {renderTabNav}
+    </>
   );
 };
 
@@ -157,7 +187,7 @@ export const styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.5,
     shadowRadius: 5,
   },
   button: {

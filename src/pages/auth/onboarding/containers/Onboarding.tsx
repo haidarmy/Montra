@@ -1,9 +1,9 @@
-import {Button} from '@components';
-import {AuthScreenNavigationProp} from '@navigations';
-import {useNavigation} from '@react-navigation/native';
-import {theme} from '@themes';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Button} from '@components';
+import {AuthScreenNavigationProp} from '@navigations';
+import {theme} from '@themes';
 import OnboardingBox from './OnboardingBox';
 
 const Onboarding = () => {

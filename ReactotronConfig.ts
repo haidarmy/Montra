@@ -1,12 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import reactotronZustand from 'reactotron-plugin-zustand';
 import Reactotron, {
   networking,
   openInEditor,
   overlay,
   trackGlobalErrors,
 } from 'reactotron-react-native';
-import reactotronZustand from 'reactotron-plugin-zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthStore} from './src/zustand';
+
 namespace LogConfig {
   let isLogEnable = false;
   /**
@@ -51,7 +52,7 @@ namespace LogConfig {
     console.error = error;
   }
 
-  function log(message: string, ...args: any[]) {
+  function log(message: string, ...args: any) {
     if (!isLogEnable) return;
     Reactotron.display({
       name: 'LOG',
@@ -60,7 +61,7 @@ namespace LogConfig {
     });
   }
 
-  export function info(message: string, ...args: any[]) {
+  export function info(message: string, ...args: any) {
     if (!isLogEnable) return;
     Reactotron.display({
       name: 'INFO',
@@ -69,7 +70,7 @@ namespace LogConfig {
     });
   }
 
-  export function warn(message: string, ...args: any[]) {
+  export function warn(message: string, ...args: any) {
     if (!isLogEnable) return;
     Reactotron.display({
       name: 'WARN',
@@ -79,7 +80,7 @@ namespace LogConfig {
     });
   }
 
-  export function error(message: string, ...args: any[]) {
+  export function error(message: string, ...args: any) {
     if (!isLogEnable) return;
     Reactotron.display({
       name: 'ERROR',

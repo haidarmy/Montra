@@ -1,8 +1,8 @@
-import {StyleSheet, Text as TextRN, TextProps as TextRNProps} from 'react-native';
 import React, {ReactNode} from 'react';
+import {StyleSheet, Text as TextRN, TextProps as TextRNProps} from 'react-native';
+import {ThemeColor, theme} from '@themes';
 import {TextType} from '@types';
 import {fontFamily, fontSize, lineHeight} from '@utils';
-import {ThemeColor, theme} from '@themes';
 
 export interface TextProps extends TextRNProps {
   type: TextType;

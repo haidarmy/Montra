@@ -1,5 +1,5 @@
-import {Screen} from '@components';
 import React from 'react';
+import {Screen} from '@components';
 import {Onboarding} from '../containers';
 
 const OnboardingScreen = () => {

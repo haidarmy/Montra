@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, {useCallback, useMemo, useRef} from 'react';
+import {Animated, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
 import {Icon} from '@components/icon';
 import {ThemeColor, theme} from '@themes';
 import {IconType} from '@types';
-import React, {useCallback, useMemo, useRef} from 'react';
-import {Animated, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
 
-const ActionButton = () => {
+export type MenuType = 'INCOME' | 'TRANSFER' | 'EXPENSE';
+interface ActionButtonProps {
+  menuState: [MenuType | undefined, React.Dispatch<React.SetStateAction<MenuType | undefined>>];
+}
+
+const ActionButton = ({menuState}: ActionButtonProps) => {
+  const setMenu = menuState[1];
   const mode = useRef(new Animated.Value(0)).current;
   const buttonSize = useRef(new Animated.Value(1)).current;
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     Animated.sequence([
       Animated.timing(buttonSize, {
         toValue: 0.95,
@@ -26,7 +33,17 @@ const ActionButton = () => {
         useNativeDriver: false,
       }),
     ]).start();
-  };
+  }, [buttonSize, mode]);
+
+  const handleSelectedMenu = useCallback(
+    (selectedMenu: MenuType) => {
+      handlePress();
+      setMenu(selectedMenu);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [handlePress],
+  );
+
   const income = useMemo(
     () => [
       {
@@ -122,12 +139,13 @@ const ActionButton = () => {
     (
       type: IconType,
       containerTransformations?: Animated.AnimatedProps<StyleProp<ViewStyle>>,
+      onPress?: () => void,
       style?: Animated.AnimatedProps<StyleProp<ViewStyle>>,
       iconTransformations?: Animated.AnimatedProps<StyleProp<ViewStyle>>,
     ) => {
       return (
         <Animated.View style={StyleSheet.flatten([containerTransformations, style as any])}>
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity onPress={onPress}>
             <Animated.View style={iconTransformations as any}>
               <Icon type={type} fill={theme.white_1} width={26} height={26} />
             </Animated.View>
@@ -141,10 +159,31 @@ const ActionButton = () => {
 
   return (
     <View style={{alignItems: 'center'}}>
-      {renderMenu('income', income, styles.menuWrapper('green_1'))}
-      {renderMenu('transfer', transfer, styles.menuWrapper('blue_1'))}
-      {renderMenu('expense', expense, styles.menuWrapper('red_1'))}
-      {renderMenu('plus', mainSizeStyle, styles.actionButton('violet_1'), mainRotation)}
+      {renderMenu(
+        'income',
+        income,
+        () => handleSelectedMenu('INCOME'),
+        styles.menuWrapper('green_1'),
+      )}
+      {renderMenu(
+        'transfer',
+        transfer,
+        () => handleSelectedMenu('TRANSFER'),
+        styles.menuWrapper('blue_1'),
+      )}
+      {renderMenu(
+        'expense',
+        expense,
+        () => handleSelectedMenu('EXPENSE'),
+        styles.menuWrapper('red_1'),
+      )}
+      {renderMenu(
+        'plus',
+        mainSizeStyle,
+        handlePress,
+        styles.actionButton('violet_1'),
+        mainRotation,
+      )}
     </View>
   );
 };

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
+import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
+import {StyleSheet, TextInput, TextInputProps, TouchableOpacity, View} from 'react-native';
 import {ThemeColor, theme} from '@themes';
 import {InputState} from '@types';
 import {fontFamily} from '@utils';
-import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
-import {StyleSheet, TextInput, TextInputProps, TouchableOpacity, View} from 'react-native';
 
 interface InputProps extends TextInputProps {
   borderColorFocus?: ThemeColor;
@@ -11,6 +11,8 @@ interface InputProps extends TextInputProps {
   disabled?: boolean;
   rightIcon?: ReactElement;
   rightIconAction?(): void;
+  leftIcon?: ReactElement;
+  leftIconAction?(): void;
   maxLength?: number;
   inputState?: [InputState, React.Dispatch<React.SetStateAction<InputState>>];
 }
@@ -23,6 +25,8 @@ const Input = ({
   secureTextEntry,
   rightIcon,
   rightIconAction,
+  leftIcon,
+  leftIconAction,
   maxLength = 24,
   inputState,
   style,
@@ -51,7 +55,7 @@ const Input = ({
   }, [handleError]);
 
   const handleRightIconAction = useCallback(
-    () => (rightIconAction ? rightIconAction : setVisibility(!visibility)),
+    () => (rightIconAction ? rightIconAction() : setVisibility(!visibility)),
     [rightIconAction, visibility],
   );
 
@@ -69,6 +73,8 @@ const Input = ({
         onBlur={handleBlur}
         maxLength={maxLength}
         style={StyleSheet.flatten([
+          leftIcon && {paddingLeft: 54},
+          rightIcon && {paddingRight: 54},
           {borderColor: theme[border]},
           styles.input,
           !rightIcon && style,
@@ -83,26 +89,40 @@ const Input = ({
       handleFocus,
       handleBlur,
       maxLength,
-      border,
+      leftIcon,
       rightIcon,
+      border,
       style,
       setInput,
     ],
   );
 
-  const handleRenderInputWithIcon = useMemo(
+  const renderInput = useMemo(
     () => (
-      <View style={StyleSheet.flatten([styles.iconContainer, rightIcon && style])}>
+      <View style={StyleSheet.flatten([styles.iconContainer, (rightIcon || leftIcon) && style])}>
         {handleRenderInputField}
-        <TouchableOpacity activeOpacity={0.7} onPress={handleRightIconAction} style={styles.icon}>
-          {rightIcon}
-        </TouchableOpacity>
+        {leftIcon && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={leftIconAction}
+            style={StyleSheet.flatten([styles.icon, {left: '1%'}])}>
+            {leftIcon}
+          </TouchableOpacity>
+        )}
+        {rightIcon && (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={handleRightIconAction}
+            style={StyleSheet.flatten([styles.icon, {right: '1%'}])}>
+            {rightIcon}
+          </TouchableOpacity>
+        )}
       </View>
     ),
-    [handleRenderInputField, handleRightIconAction, rightIcon, style],
+    [handleRenderInputField, handleRightIconAction, leftIcon, leftIconAction, rightIcon, style],
   );
 
-  return rightIcon ? handleRenderInputWithIcon : handleRenderInputField;
+  return renderInput;
 };
 
 export default Input;
@@ -125,7 +145,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
-    right: '1%',
     height: 48,
     width: 48,
   },
