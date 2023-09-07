@@ -1,16 +1,24 @@
 import React, {ReactNode} from 'react';
-import {StyleSheet, Text as TextRN, TextProps as TextRNProps} from 'react-native';
+import {StyleSheet, Text as TextRN, TextProps as TextRNProps, TextStyle} from 'react-native';
 import {ThemeColor, theme} from '@themes';
 import {TextType} from '@types';
 import {fontFamily, fontSize, lineHeight} from '@utils';
 
 export interface TextProps extends TextRNProps {
-  type: TextType;
+  type?: TextType;
   color?: ThemeColor;
   children?: ReactNode;
+  textAlign?: TextStyle['textAlign'];
 }
 
-const Text = ({type, color = 'black_1', children, style, ...props}: TextProps) => {
+const Text = ({
+  type = 'regular_1',
+  color = 'black_1',
+  textAlign,
+  children,
+  style,
+  ...props
+}: TextProps) => {
   return (
     <TextRN
       {...props}
@@ -20,6 +28,7 @@ const Text = ({type, color = 'black_1', children, style, ...props}: TextProps) =
           fontSize: fontSize[type],
           lineHeight: !style ? lineHeight[type] : undefined,
           color: theme[color],
+          textAlign: textAlign,
         },
         style,
       ])}>

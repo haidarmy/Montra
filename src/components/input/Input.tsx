@@ -1,6 +1,12 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, {ReactElement, useCallback, useEffect, useMemo, useState} from 'react';
-import {StyleSheet, TextInput, TextInputProps, TouchableOpacity, View} from 'react-native';
+import {
+  Keyboard,
+  StyleSheet,
+  TextInput,
+  TextInputProps,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {ThemeColor, theme} from '@themes';
 import {InputState} from '@types';
 import {fontFamily} from '@utils';
@@ -54,10 +60,10 @@ const Input = ({
     handleError();
   }, [handleError]);
 
-  const handleRightIconAction = useCallback(
-    () => (rightIconAction ? rightIconAction() : setVisibility(!visibility)),
-    [rightIconAction, visibility],
-  );
+  const handleRightIconAction = useCallback(() => {
+    Keyboard.dismiss();
+    rightIconAction ? rightIconAction() : setVisibility(!visibility);
+  }, [rightIconAction, visibility]);
 
   const handleRenderInputField = useMemo(
     () => (
@@ -66,6 +72,7 @@ const Input = ({
         onPressOut={() => {
           setInput && setInput('NO_ERROR');
         }}
+        autoCorrect={false}
         secureTextEntry={!visibility}
         onChangeText={onChangeText}
         editable={!disabled}
@@ -122,7 +129,13 @@ const Input = ({
     [handleRenderInputField, handleRightIconAction, leftIcon, leftIconAction, rightIcon, style],
   );
 
-  return renderInput;
+  return rightIconAction && disabled ? (
+    <TouchableOpacity activeOpacity={0.7} onPress={handleRightIconAction}>
+      {renderInput}
+    </TouchableOpacity>
+  ) : (
+    renderInput
+  );
 };
 
 export default Input;

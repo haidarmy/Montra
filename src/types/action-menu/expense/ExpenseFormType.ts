@@ -6,6 +6,7 @@ export interface ExpenseFormType {
   balance: number;
   category: ExpenseCategoryType;
   description: string;
+  notes: string;
   wallet: UserWalletDataResponse;
   attachment: CaptureData;
   type: 'EXPENSE';

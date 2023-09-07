@@ -4,9 +4,9 @@ import {useAsyncStorage} from '@react-native-async-storage/async-storage';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {NavigationContainer} from '@react-navigation/native';
+import AuthStack from '@navigations/Auth/AuthStack';
+import HomeTab from '@navigations/Home/HomeTab';
 import {useAuthStore} from '@zustand';
-import AuthStack from './AuthStack';
-import HomeTab from './HomeTab';
 
 type AppStatusType = {
   hadRegistered: boolean;

@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import FlashMessage from 'react-native-flash-message';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
-import RootStack from '@navigations/RootStack';
+import RootStack from '@navigations/Root/RootStack';
 import {theme} from '@themes';
 import {useAuthStore} from '@zustand';
 

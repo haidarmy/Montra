@@ -1,3 +1,3 @@
-export * from './RootStack';
-export * from './HomeTab';
-export * from './AuthStack';
+export * from './Auth';
+export * from './Home';
+export * from './Root';

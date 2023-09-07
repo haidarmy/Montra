@@ -37,6 +37,7 @@ const InputForm = <
     senderWallet?: UserWalletDataResponse;
     receiverWallet?: UserWalletDataResponse;
     description: string;
+    notes?: string;
   },
 >({
   formState,
@@ -93,6 +94,17 @@ const InputForm = <
     [form, setCategoryModalVisible],
   );
 
+  const notesProps: Omit<React.ComponentProps<typeof Input>, 'children'> = useMemo(
+    () => ({
+      placeholder: 'Notes',
+      value: form.notes,
+      onChangeText: val => setForm('notes', val),
+      maxLength: 20,
+      style: {marginBottom: 16},
+    }),
+    [form.notes, setForm],
+  );
+
   const walletProps: Omit<React.ComponentProps<typeof Input>, 'children'> = useMemo(
     () => ({
       placeholder: 'Wallet',
@@ -107,6 +119,7 @@ const InputForm = <
     }),
     [form.wallet?.bank, form.wallet?.cardHolderName, toggleWalletModalState],
   );
+
   const senderWalletProps: Omit<React.ComponentProps<typeof Input>, 'children'> = useMemo(
     () => ({
       placeholder: 'From',
@@ -120,6 +133,7 @@ const InputForm = <
     }),
     [form.senderWallet?.bank, form.senderWallet?.cardHolderName, toggleSenderWalletModalState],
   );
+
   const receiverWalletProps: Omit<React.ComponentProps<typeof Input>, 'children'> = useMemo(
     () => ({
       placeholder: 'To',
@@ -169,8 +183,9 @@ const InputForm = <
     <View style={styles.inputContainer}>
       <View>
         {variant !== 'TRANSFER' && <Input {...categoryProps} />}
+        {variant !== 'TRANSFER' && <Input {...notesProps} />}
         {variant !== 'TRANSFER' && <Input {...walletProps} />}
-        {variant == 'TRANSFER' && handleRenderTransferWallet}
+        {variant === 'TRANSFER' && handleRenderTransferWallet}
         <Input {...descProps} />
         {!form.attachment.uri && (
           <TouchableOpacity

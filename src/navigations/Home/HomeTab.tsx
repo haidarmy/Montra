@@ -7,17 +7,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {createRef, useCallback, useMemo, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
+import {CurvedBottomBar, ICurvedBottomBarRef} from 'react-native-curved-bottom-bar';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {NavigatorScreenParams} from '@react-navigation/native';
 import {ActionButton, Icon, MenuType, Text} from '@components';
-import {ExpenseScreen, IncomeScreen, TransferScreen} from '@pages';
+import {ExpenseScreen, IncomeScreen, TransactionListScreen, TransferScreen} from '@pages';
 import {theme} from '@themes';
 import {IconType} from '@types';
+import TransactionStack, {TransactionStackParamList} from './TransactionStack';
 
-type HomeTabParamList = {
+export type HomeTabParamList = {
   Home: undefined;
-  Transaction: undefined;
+  Transaction: NavigatorScreenParams<TransactionStackParamList>;
   Budget: undefined;
   Profile: undefined;
 };
@@ -31,12 +34,14 @@ type CurvedTabRoutesType = Omit<React.ComponentProps<typeof CurvedBottomBar.Scre
 
 type HomeTabRoutesType = CurvedTabRoutesType & RouteName;
 
+export type TabScreenNavigationProp = BottomTabNavigationProp<HomeTabParamList>;
+
 const Home = () => {
   return <View style={styles.screen1} />;
 };
 
 const Transaction = () => {
-  return <View style={styles.screen2} />;
+  return <TransactionStack />;
 };
 const Budget = () => {
   return <View style={styles.screen1} />;
@@ -52,17 +57,9 @@ type RenderTabProps = {
   navigate: (selectedTab: string) => void;
 };
 
+export const tabBarRef = createRef<ICurvedBottomBarRef>();
+
 const HomeTab = () => {
-  const menuState = useState<MenuType>();
-  const menu = menuState[0];
-
-  const renderMenu = useMemo(() => {
-    if (!menu) return null;
-    if (menu === 'TRANSFER') return <TransferScreen menuState={menuState} />;
-    if (menu === 'EXPENSE') return <ExpenseScreen menuState={menuState} />;
-    if (menu === 'INCOME') return <IncomeScreen menuState={menuState} />;
-  }, [menu, menuState]);
-
   const _renderIcon = useCallback((routeName: Name, selectedTab: Name) => {
     let icon = '' as IconType;
 
@@ -112,11 +109,7 @@ const HomeTab = () => {
   );
 
   const routes: Array<HomeTabRoutesType> = [
-    {
-      name: 'Home',
-      position: 'LEFT',
-      component: () => <Home />,
-    },
+    {name: 'Home', position: 'LEFT', component: () => <Home />},
     {name: 'Transaction', position: 'LEFT', component: () => <Transaction />},
     {name: 'Budget', position: 'RIGHT', component: () => <Budget />},
     {name: 'Profile', position: 'RIGHT', component: () => <Profile />},
@@ -131,6 +124,7 @@ const HomeTab = () => {
       screenOptions: {
         headerShown: false,
       },
+      ref: tabBarRef,
       type: 'DOWN',
       style: styles.bottomBar,
       shadowStyle: styles.shadow,
@@ -138,7 +132,7 @@ const HomeTab = () => {
       circleWidth: 55,
       bgColor: theme.white_1,
       renderCircle: ({selectedTab, navigate}) => {
-        return <ActionButton menuState={menuState} />;
+        return <ActionButton />;
       },
       tabBar: renderTabBar as ({
         routeName,
@@ -150,37 +144,28 @@ const HomeTab = () => {
         navigate: (selectedTab: string) => void;
       }) => JSX.Element,
     }),
-    [menuState, renderTabBar],
+    [renderTabBar],
   );
 
   const renderTabNav = useMemo(
-    () =>
-      !menu && (
-        <CurvedBottomBar.Navigator {...homeTabNavigatorProps}>
-          {routes.map(routeConfig => (
-            <CurvedBottomBar.Screen key={routeConfig.name} {...(routeConfig as CurvedTabRoutes)} />
-          ))}
-        </CurvedBottomBar.Navigator>
-      ),
+    () => (
+      <CurvedBottomBar.Navigator {...homeTabNavigatorProps}>
+        {routes.map(routeConfig => (
+          <CurvedBottomBar.Screen key={routeConfig.name} {...(routeConfig as CurvedTabRoutes)} />
+        ))}
+      </CurvedBottomBar.Navigator>
+    ),
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [homeTabNavigatorProps, menu],
+    [homeTabNavigatorProps],
   );
 
-  return (
-    <>
-      {renderMenu}
-      {renderTabNav}
-    </>
-  );
+  return renderTabNav;
 };
 
 export default React.memo(HomeTab);
 
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
   shadow: {
     shadowColor: '#DDDDDD',
     shadowOffset: {

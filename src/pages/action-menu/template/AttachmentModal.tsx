@@ -27,7 +27,6 @@ const AttachmentModal = <T extends {attachment: CaptureData}>({
     (image: CaptureData) => {
       setForm('attachment', image);
       setUploadOption(undefined);
-      console.log('image', image.uri);
     },
     [setForm],
   );

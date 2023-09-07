@@ -1,3 +1,4 @@
+export * from './activity-indicator';
 export * from './action-button';
 export * from './alert';
 export * from './button';

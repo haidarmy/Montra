@@ -3,17 +3,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, {useCallback, useMemo, useRef} from 'react';
 import {Animated, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {Icon} from '@components/icon';
+import {TabScreenNavigationProp, tabBarRef} from '@navigations';
 import {ThemeColor, theme} from '@themes';
 import {IconType} from '@types';
 
 export type MenuType = 'INCOME' | 'TRANSFER' | 'EXPENSE';
-interface ActionButtonProps {
-  menuState: [MenuType | undefined, React.Dispatch<React.SetStateAction<MenuType | undefined>>];
-}
 
-const ActionButton = ({menuState}: ActionButtonProps) => {
-  const setMenu = menuState[1];
+const ActionButton = () => {
+  const navigation = useNavigation<TabScreenNavigationProp>();
   const mode = useRef(new Animated.Value(0)).current;
   const buttonSize = useRef(new Animated.Value(1)).current;
 
@@ -29,6 +28,7 @@ const ActionButton = ({menuState}: ActionButtonProps) => {
         useNativeDriver: true,
       }),
       Animated.timing(mode, {
+        duration: 250,
         toValue: Number(JSON.stringify(mode)) === 0 ? 1 : 0,
         useNativeDriver: false,
       }),
@@ -37,11 +37,22 @@ const ActionButton = ({menuState}: ActionButtonProps) => {
 
   const handleSelectedMenu = useCallback(
     (selectedMenu: MenuType) => {
-      handlePress();
-      setMenu(selectedMenu);
+      tabBarRef.current?.setVisible(false);
+      switch (selectedMenu) {
+        case 'EXPENSE':
+          navigation.navigate('Transaction', {screen: 'AddExpenseTransaction'});
+          break;
+        case 'INCOME':
+          navigation.navigate('Transaction', {screen: 'AddIncomeTransaction'});
+          break;
+        case 'TRANSFER':
+          navigation.navigate('Transaction', {screen: 'AddTransferTransaction'});
+          break;
+        default:
+          break;
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [handlePress],
+    [navigation],
   );
 
   const income = useMemo(

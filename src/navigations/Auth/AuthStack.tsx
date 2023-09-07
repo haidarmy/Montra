@@ -12,7 +12,7 @@ import {
   SignUpSuccessScreen,
 } from '@pages';
 
-type AuthStackParamList = {
+export type AuthStackParamList = {
   Onboarding: undefined;
   Login: undefined;
   SignUp: undefined;

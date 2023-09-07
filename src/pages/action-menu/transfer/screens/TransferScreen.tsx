@@ -1,15 +1,11 @@
 import React from 'react';
-import {MenuType, Screen} from '@components';
+import {Screen} from '@components';
 import {Transfer, TransferHeader} from '../containers';
 
-interface TransferScreenProps {
-  menuState: [MenuType | undefined, React.Dispatch<React.SetStateAction<MenuType | undefined>>];
-}
-
-const TransferScreen = ({menuState}: TransferScreenProps) => {
+const TransferScreen = () => {
   return (
     <Screen>
-      <TransferHeader menuState={menuState} />
+      <TransferHeader />
       <Transfer />
     </Screen>
   );

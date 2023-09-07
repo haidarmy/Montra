@@ -1,15 +1,11 @@
 import React from 'react';
-import {MenuType, Screen} from '@components';
+import {Screen} from '@components';
 import {Expense, ExpenseHeader} from '../containers';
 
-interface ExpenseScreenProps {
-  menuState: [MenuType | undefined, React.Dispatch<React.SetStateAction<MenuType | undefined>>];
-}
-
-const ExpenseScreen = ({menuState}: ExpenseScreenProps) => {
+const ExpenseScreen = () => {
   return (
     <Screen>
-      <ExpenseHeader menuState={menuState} />
+      <ExpenseHeader />
       <Expense />
     </Screen>
   );

@@ -1,20 +1,12 @@
 import React from 'react';
-import {MenuType} from '@components';
+import {useNavigation} from '@react-navigation/native';
 import {Header} from '@components/header';
 
-type ExpenseHeaderProps = {
-  menuState: [MenuType | undefined, React.Dispatch<React.SetStateAction<MenuType | undefined>>];
-};
+const ExpenseHeader = () => {
+  const navigation = useNavigation();
 
-const ExpenseHeader = ({menuState}: ExpenseHeaderProps) => {
-  const setMenu = menuState[1];
   return (
-    <Header
-      title="Expense"
-      color="red_1"
-      titleColor="white_1"
-      onBack={() => setMenu(null as unknown as MenuType)}
-    />
+    <Header title="Expense" color="red_1" titleColor="white_1" onBack={() => navigation.goBack()} />
   );
 };
 

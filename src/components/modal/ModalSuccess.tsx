@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {Icon} from '@components/icon';
@@ -8,10 +8,20 @@ import {theme} from '@themes';
 
 type ModalSuccessProps = {
   toggleModalState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  message: string;
+  onSuccess(): void;
 };
 
-const ModalSuccess = ({toggleModalState}: ModalSuccessProps) => {
+const ModalSuccess = ({toggleModalState, message, onSuccess}: ModalSuccessProps) => {
   const isVisible = toggleModalState[0];
+
+  useEffect(() => {
+    isVisible &&
+      setTimeout(() => {
+        onSuccess();
+      }, 2000);
+  }, [isVisible]);
+
   return (
     <Modal
       statusBarTranslucent
@@ -21,18 +31,12 @@ const ModalSuccess = ({toggleModalState}: ModalSuccessProps) => {
       animationIn={'pulse'}
       animationOut={'fadeOut'}
       deviceHeight={Dimensions.get('screen').height}>
-      <View
-        style={{
-          backgroundColor: 'white',
-          width: '100%',
-          height: '20%',
-          borderRadius: 24,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.content}>
         <Icon type="success" fill={theme.blue_1} width={64} height={64} />
         <Gap height={10} />
-        <Text type="regular_1">Transaction has been successfully added</Text>
+        <Text type="regular_1" textAlign="center">
+          {message}
+        </Text>
       </View>
     </Modal>
   );
@@ -44,5 +48,14 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  content: {
+    backgroundColor: theme.white_1,
+    width: '100%',
+    height: '20%',
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
   },
 });

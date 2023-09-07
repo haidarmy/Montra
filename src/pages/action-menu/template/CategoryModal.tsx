@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {useCallback, useMemo} from 'react';
+import React, {SetStateAction, useCallback, useMemo} from 'react';
 import {Dimensions, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {Icon, Text} from '@components';
@@ -9,7 +9,8 @@ import {getFormattedCategory} from './InputForm';
 
 export interface CategoryModalProps<T> {
   toggleModalState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
-  formState: [T, (formType: keyof T, formValue?: any) => void];
+  formState?: [T, (formType: keyof T, formValue?: any) => void];
+  customFormState?: [T, React.Dispatch<React.SetStateAction<T>>];
   categories: (ExpenseCategoryType | IncomeCategoryType)[];
 }
 
@@ -36,13 +37,19 @@ const CategoryModal = <T extends {category: ExpenseCategoryType | IncomeCategory
   formState,
   toggleModalState,
   categories,
+  customFormState,
 }: CategoryModalProps<T>) => {
-  const [form, setForm] = formState;
+  const [form, setForm] = formState || customFormState || [];
   const [isVisible, setModalVisible] = toggleModalState;
 
   const handleSelectCategory = useCallback(
     (data: string) => {
-      setForm('category', data);
+      if (formState && !customFormState) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        setForm && setForm('category' as keyof T & SetStateAction<T>, data);
+      } else if (customFormState && !formState) {
+        setForm && setForm((form => ({...form, category: data})) as keyof T & SetStateAction<T>);
+      }
       setModalVisible(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +63,7 @@ const CategoryModal = <T extends {category: ExpenseCategoryType | IncomeCategory
         activeOpacity={0.7}
         style={{
           ...styles.categoryList,
-          borderColor: form.category === category ? getCategoryColor(category) : theme.white_5,
+          borderColor: form?.category === category ? getCategoryColor(category) : theme.white_5,
         }}
         onPress={() => handleSelectCategory(category)}>
         <View
@@ -70,7 +77,7 @@ const CategoryModal = <T extends {category: ExpenseCategoryType | IncomeCategory
         </Text>
       </TouchableOpacity>
     ));
-  }, [categories, form.category, handleSelectCategory]);
+  }, [categories, form?.category, handleSelectCategory]);
 
   const renderCategoryModal = useMemo(
     () => (

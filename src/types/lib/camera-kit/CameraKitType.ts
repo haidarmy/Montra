@@ -1,6 +1,6 @@
 export type CaptureData = {
   uri: string;
-  name?: string;
+  name: string;
   // Android only
   id?: string;
   path?: string;

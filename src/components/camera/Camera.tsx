@@ -46,8 +46,11 @@ const Camera = ({onBack, onCapture}: CameraProps) => {
     try {
       isCapturing.current = true;
       image = await cameraRef.current.capture();
-    } catch (e) {
-      console.log('error', e);
+    } catch (error) {
+      let message;
+      if (error instanceof Error) message = error.message;
+      else message = String(error);
+      console.log(message);
     } finally {
       isCapturing.current = false;
     }
