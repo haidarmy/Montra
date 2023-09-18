@@ -374,6 +374,11 @@ const TransactionList = () => {
     ],
   );
 
+  const renderLoading = useMemo(
+    () => refreshing && <ActivityIndicator color="violet_1" size="small" />,
+    [refreshing],
+  );
+
   const renderTransactionList = useMemo(
     () => (
       <View style={styles.page}>
@@ -383,7 +388,7 @@ const TransactionList = () => {
           <Icon type="arrow_right_2" fill={theme.violet_1} />
         </TouchableOpacity>
         <View style={styles.content}>
-          {refreshing && <ActivityIndicator color="violet_1" size="small" />}
+          {renderLoading}
           {renderSeparateList}
           {renderTransaction}
         </View>
@@ -391,7 +396,7 @@ const TransactionList = () => {
       </View>
     ),
     [
-      refreshing,
+      renderLoading,
       renderSeparateList,
       renderTopNavigation,
       renderTopNavigationModal,

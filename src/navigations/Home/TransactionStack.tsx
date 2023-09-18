@@ -34,7 +34,10 @@ const routes: Array<React.ComponentProps<typeof Stack.Screen>> = [
   {name: 'AddTransferTransaction', component: TransferScreen},
 ];
 
-const rootStackNavigatorProps: Omit<React.ComponentProps<typeof Stack.Navigator>, 'children'> = {
+const transactionStackNavigatorProps: Omit<
+  React.ComponentProps<typeof Stack.Navigator>,
+  'children'
+> = {
   screenOptions: {
     headerShown: false,
     animation: 'none',
@@ -60,7 +63,7 @@ export default function TransactionStack() {
   }, [route]);
 
   return (
-    <Stack.Navigator initialRouteName="TransactionScreen" {...rootStackNavigatorProps}>
+    <Stack.Navigator initialRouteName="TransactionScreen" {...transactionStackNavigatorProps}>
       {routes.map(routeConfig => (
         <Stack.Screen key={routeConfig.name} {...routeConfig} />
       ))}

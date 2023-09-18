@@ -1,25 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-import React, {createRef, useCallback, useMemo, useState} from 'react';
+import React, {createRef, useCallback, useMemo} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {CurvedBottomBar, ICurvedBottomBarRef} from 'react-native-curved-bottom-bar';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {NavigatorScreenParams} from '@react-navigation/native';
-import {ActionButton, Icon, MenuType, Text} from '@components';
-import {ExpenseScreen, IncomeScreen, TransactionListScreen, TransferScreen} from '@pages';
+import {ActionButton, Icon, Text} from '@components';
 import {theme} from '@themes';
 import {IconType} from '@types';
+import HomeStack, {HomeStackParamList} from './HomeStack';
 import TransactionStack, {TransactionStackParamList} from './TransactionStack';
 
 export type HomeTabParamList = {
-  Home: undefined;
+  Home: NavigatorScreenParams<HomeStackParamList>;
   Transaction: NavigatorScreenParams<TransactionStackParamList>;
   Budget: undefined;
   Profile: undefined;
@@ -37,7 +29,7 @@ type HomeTabRoutesType = CurvedTabRoutesType & RouteName;
 export type TabScreenNavigationProp = BottomTabNavigationProp<HomeTabParamList>;
 
 const Home = () => {
-  return <View style={styles.screen1} />;
+  return <HomeStack />;
 };
 
 const Transaction = () => {
@@ -131,7 +123,7 @@ const HomeTab = () => {
       height: 70,
       circleWidth: 55,
       bgColor: theme.white_1,
-      renderCircle: ({selectedTab, navigate}) => {
+      renderCircle: () => {
         return <ActionButton />;
       },
       tabBar: renderTabBar as ({
