@@ -24,12 +24,12 @@ yarn android
 
 
 ## Built With
-
+- [Typescript](https://www.typescriptlang.org/)
+- [React Native](https://reactnative.dev/)
+- [Zustand](https://zustand-demo.pmnd.rs/)
 - [React Navigation](https://reactnavigation.org/)
 - [NodeJS](https://nodejs.org/en/)
 - [Firebase](https://firebase.google.com/)
-- [React Native](https://reactnative.dev/)
-- [Zustand](https://zustand-demo.pmnd.rs/)
 
 ## Author
 
@@ -40,8 +40,6 @@ yarn android
 
 ## Credit
 * UI Kit: [Braja Omar Justico](https://www.uistore.design/items/montra-expense-tracker-free-ui-kit-for-figma/)
-
-## Show your support
 
 Give a ⭐️ if this project helped you!
 
