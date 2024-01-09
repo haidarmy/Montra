@@ -1,4 +1,4 @@
-<h1 align="center">[IN PROGRESS]<br>Montra 💸</h1>
+<h1 align="center">Montra 💸</h1>
 
 > Montra is a user-friendly and efficient expense tracker application designed to help individuals manage their finances with ease. Whether you want to keep track of personal expenses, expenditures, or budget for specific financial goals, Montra provides a simple and intuitive platform to do so. With Montra, users can effortlessly record, categorize, and analyze their expenses, gaining valuable insights into their spending habits.
 
